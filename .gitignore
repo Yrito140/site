@@ -1,0 +1,25 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+
+.env
+.env.local
+.env*.local
+
+# Загрузки пользователей (том Docker), плейсхолдеры остаются в репозитории
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# Фото-загрузчик и исходники фото (в репозиторий не нужны:
+# итог лежит в public/meals и prisma/seed-assets.ts)
+download_food_photos.py
+photos/
+
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+coverage/

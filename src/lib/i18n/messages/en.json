@@ -1,0 +1,198 @@
+{
+  "app": {
+    "name": "Marafon",
+    "tagline": "Nutrition and training without the chaos"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "menu": "Menu",
+    "progress": "Progress",
+    "workouts": "Workouts",
+    "profile": "Profile",
+    "admin": "Admin",
+    "signOut": "Sign out",
+    "theme": "Theme",
+    "language": "Language"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Create account",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "forgot": "Forgot password?",
+    "haveAccount": "Already have an account?",
+    "noAccount": "No account yet?",
+    "resetTitle": "Password recovery",
+    "resetSent": "If that email is registered, a reset link is already on its way.",
+    "newPassword": "New password",
+    "invalidCredentials": "Wrong email or password"
+  },
+  "onboarding": {
+    "title": "Tell us about yourself",
+    "subtitle": "Five steps and we will calculate your calories and build a menu",
+    "next": "Next",
+    "back": "Back",
+    "finish": "Calculate",
+    "step": "Step {current} of {total}"
+  },
+  "profile": {
+    "sex": "Sex",
+    "male": "Male",
+    "female": "Female",
+    "age": "Age",
+    "height": "Height, cm",
+    "weight": "Current weight, kg",
+    "targetWeight": "Target weight, kg",
+    "goal": "Goal",
+    "activity": "Activity level",
+    "diet": "Dietary preferences",
+    "recalculate": "Recalculate",
+    "saved": "Profile saved"
+  },
+  "goals": {
+    "LOSE_WEIGHT": "Lose weight",
+    "MAINTAIN": "Maintain weight",
+    "GAIN_MUSCLE": "Build muscle"
+  },
+  "activity": {
+    "SEDENTARY": "Sedentary",
+    "SEDENTARY_hint": "Desk job, little movement",
+    "LIGHT": "Lightly active",
+    "LIGHT_hint": "1–3 workouts per week",
+    "MODERATE": "Moderately active",
+    "MODERATE_hint": "3–5 workouts per week",
+    "HIGH": "Very active",
+    "HIGH_hint": "6–7 workouts per week",
+    "VERY_HIGH": "Extra active",
+    "VERY_HIGH_hint": "Physical job or two sessions a day"
+  },
+  "diet": {
+    "vegetarian": "Vegetarian",
+    "vegan": "Vegan",
+    "gluten-free": "Gluten-free",
+    "lactose-free": "Lactose-free",
+    "nut-free": "Nut-free"
+  },
+  "metrics": {
+    "bmi": "BMI",
+    "bmr": "Basal metabolism",
+    "tdee": "Daily expenditure",
+    "target": "Target calories",
+    "protein": "Protein",
+    "fat": "Fat",
+    "carbs": "Carbs",
+    "kcal": "kcal",
+    "perDay": "per day",
+    "healthyRange": "Healthy range for your height: {min}–{max} kg",
+    "floorApplied": "Deficit capped at a safe minimum"
+  },
+  "bmi": {
+    "UNDERWEIGHT": "Underweight",
+    "NORMAL": "Normal",
+    "OVERWEIGHT": "Overweight",
+    "OBESE_I": "Obesity class I",
+    "OBESE_II": "Obesity class II",
+    "OBESE_III": "Obesity class III"
+  },
+  "menu": {
+    "title": "Weekly menu",
+    "regenerate": "Refresh menu",
+    "replace": "Replace",
+    "replaceTitle": "Replace meal",
+    "replaceHint": "Alternatives from the same calorie group",
+    "ingredients": "Ingredients",
+    "prepTime": "{minutes} min",
+    "empty": "No menu yet",
+    "generate": "Build menu",
+    "dayTotal": "Day total",
+    "eaten": "Eaten",
+    "viewDay": "By day",
+    "viewWeek": "Full week",
+    "shoppingList": "Shopping list",
+    "copyList": "Copy",
+    "copied": "Copied",
+    "remaining": "{kcal} kcal left",
+    "over": "{kcal} kcal over",
+    "ofTarget": "of {target} kcal",
+    "noMeal": "No meal assigned",
+    "howToCook": "How to cook",
+    "recipeSteps": "Directions",
+    "recipeIngredients": "Ingredients",
+    "noRecipe": "No recipe yet",
+    "notEnoughMeals": "Not enough meals match your restrictions — try removing some filters"
+  },
+  "meals": {
+    "BREAKFAST": "Breakfast",
+    "LUNCH": "Lunch",
+    "DINNER": "Dinner",
+    "SNACK": "Snack"
+  },
+  "days": {
+    "0": "Monday",
+    "1": "Tuesday",
+    "2": "Wednesday",
+    "3": "Thursday",
+    "4": "Friday",
+    "5": "Saturday",
+    "6": "Sunday"
+  },
+  "progress": {
+    "title": "Progress",
+    "addWeight": "Log weight",
+    "weightChart": "Weight over time",
+    "history": "Measurement history",
+    "bodyFat": "Body fat, %",
+    "waist": "Waist, cm",
+    "notes": "Notes",
+    "noData": "No data yet — add your first measurement",
+    "change": "Change",
+    "toTarget": "To target"
+  },
+  "workouts": {
+    "title": "Workouts",
+    "add": "Log workout",
+    "type": "Type",
+    "duration": "Duration, min",
+    "intensity": "Intensity",
+    "burned": "Burned, kcal",
+    "estimated": "Estimated from MET",
+    "weekTotal": "This week",
+    "empty": "No workouts logged yet"
+  },
+  "workoutTypes": {
+    "CARDIO": "Cardio",
+    "STRENGTH": "Strength",
+    "HIIT": "HIIT",
+    "YOGA": "Yoga",
+    "WALKING": "Walking",
+    "OTHER": "Other"
+  },
+  "intensity": {
+    "LOW": "Low",
+    "MEDIUM": "Medium",
+    "HIGH": "High"
+  },
+  "admin": {
+    "title": "Management",
+    "meals": "Meals",
+    "users": "Users",
+    "newMeal": "New meal",
+    "edit": "Edit",
+    "delete": "Delete",
+    "published": "Published",
+    "confirmDelete": "Delete this meal permanently?"
+  },
+  "cookie": {
+    "text": "We use cookies to keep the site working and remember your sign-in. By continuing you agree to this.",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "loading": "Loading",
+    "today": "Today",
+    "error": "Something went wrong"
+  }
+}

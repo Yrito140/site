@@ -1,0 +1,238 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+enum Goal {
+  LOSE_WEIGHT
+  MAINTAIN
+  GAIN_MUSCLE
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+enum WorkoutType {
+  CARDIO
+  STRENGTH
+  HIIT
+  YOGA
+  WALKING
+  OTHER
+}
+
+enum WorkoutIntensity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  name          String?
+  role          Role      @default(USER)
+  emailVerified DateTime?
+  locale        String    @default("ru")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  profile             Profile?
+  weightLogs          WeightLog[]
+  workoutLogs         WorkoutLog[]
+  menus               WeeklyMenu[]
+  mealCompletions     MealCompletion[]
+  passwordResetTokens PasswordResetToken[]
+  verificationTokens  VerificationToken[]
+}
+
+model Profile {
+  id              String        @id @default(cuid())
+  userId          String        @unique
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sex             Sex
+  age             Int
+  heightCm        Float
+  currentWeightKg Float
+  targetWeightKg  Float?
+  goal            Goal
+  activityLevel   ActivityLevel
+  dietaryTags     String[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
+model Meal {
+  id              String   @id @default(cuid())
+  name            String   @unique
+  nameEn          String?
+  description     String?
+  type            MealType
+  calories        Int
+  proteinG        Float
+  fatG            Float
+  carbsG          Float
+  gramsPerServing Int?
+  prepTimeMinutes Int
+  photoUrl        String?
+  tags            String[]
+  /// Ингредиенты рецепта одной строкой, как в кулинарной книге («творог 200 г, яйцо 1 шт»).
+  /// Отличается от MealIngredient: там граммовки для расчёта КБЖУ, здесь — текст для человека.
+  recipeIngredients String?
+  /// Шаги приготовления по порядку.
+  recipeSteps     String[]
+  isPublished     Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  ingredients   MealIngredient[]
+  menuEntries   MenuEntry[]
+  completions   MealCompletion[]
+
+  @@index([type, isPublished])
+  @@index([calories])
+}
+
+model Ingredient {
+  id             String  @id @default(cuid())
+  key            String  @unique
+  name           String
+  nameEn         String?
+  kcalPer100g    Float
+  proteinPer100g Float
+  fatPer100g     Float
+  carbsPer100g   Float
+
+  meals MealIngredient[]
+}
+
+model MealIngredient {
+  mealId       String
+  ingredientId String
+  grams        Float
+
+  meal       Meal       @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  ingredient Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+
+  @@id([mealId, ingredientId])
+}
+
+model WeeklyMenu {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weekStart DateTime
+  createdAt DateTime @default(now())
+
+  entries MenuEntry[]
+
+  @@unique([userId, weekStart])
+}
+
+model MenuEntry {
+  id        String     @id @default(cuid())
+  menuId    String
+  menu      WeeklyMenu @relation(fields: [menuId], references: [id], onDelete: Cascade)
+  dayOfWeek Int
+  mealType  MealType
+  mealId    String
+  meal      Meal       @relation(fields: [mealId], references: [id], onDelete: Restrict)
+  scale     Float      @default(1)
+
+  @@index([menuId, dayOfWeek])
+}
+
+model WeightLog {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date       DateTime @db.Date
+  weightKg   Float
+  bodyFatPct Float?
+  waistCm    Float?
+  notes      String?
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
+
+model WorkoutLog {
+  id              String           @id @default(cuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date            DateTime         @db.Date
+  type            WorkoutType
+  title           String?
+  durationMinutes Int
+  intensity       WorkoutIntensity
+  caloriesBurned  Int?
+  createdAt       DateTime         @default(now())
+
+  @@index([userId, date])
+}
+
+model MealCompletion {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date      DateTime @db.Date
+  mealId    String
+  meal      Meal     @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  mealType  MealType
+  createdAt DateTime @default(now())
+
+  @@unique([userId, date, mealId, mealType])
+  @@index([userId, date])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}

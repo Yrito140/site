@@ -1,0 +1,145 @@
+@import 'tailwindcss';
+
+/*
+ * Палитра в oklch: один акцент (спокойный зелёный), нейтрали с лёгким
+ * тёплым уклоном. Тёмная тема переопределяет те же переменные, поэтому
+ * компоненты не знают о теме ничего.
+ */
+@theme {
+  --font-sans: 'Inter', 'Roboto', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 1rem;
+  --radius-field: 0.75rem;
+
+  --shadow-e1: 0 1px 2px oklch(0% 0 0 / 0.06), 0 1px 3px oklch(0% 0 0 / 0.04);
+  --shadow-e2: 0 2px 6px oklch(0% 0 0 / 0.07), 0 1px 2px oklch(0% 0 0 / 0.04);
+  --shadow-e3: 0 8px 24px oklch(0% 0 0 / 0.09), 0 2px 6px oklch(0% 0 0 / 0.05);
+
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-on-accent: var(--c-on-accent);
+  --color-accent-container: var(--c-accent-container);
+  --color-on-accent-container: var(--c-on-accent-container);
+
+  --color-surface: var(--c-surface);
+  --color-surface-low: var(--c-surface-low);
+  --color-surface-high: var(--c-surface-high);
+  --color-on-surface: var(--c-on-surface);
+  --color-muted: var(--c-muted);
+  --color-line: var(--c-line);
+
+  --color-danger: var(--c-danger);
+  --color-danger-container: var(--c-danger-container);
+  --color-warning: var(--c-warning);
+  --color-success: var(--c-success);
+
+  --color-chart-1: var(--c-chart-1);
+  --color-chart-2: var(--c-chart-2);
+  --color-chart-3: var(--c-chart-3);
+}
+
+:root {
+  --c-accent: oklch(48% 0.09 145);
+  --c-accent-hover: oklch(43% 0.09 145);
+  --c-on-accent: oklch(99% 0 0);
+  --c-accent-container: oklch(94% 0.04 145);
+  --c-on-accent-container: oklch(32% 0.07 145);
+
+  --c-surface: oklch(99.3% 0.003 120);
+  --c-surface-low: oklch(97% 0.005 120);
+  --c-surface-high: oklch(100% 0 0);
+  --c-on-surface: oklch(22% 0.008 120);
+  --c-muted: oklch(52% 0.012 120);
+  --c-line: oklch(90% 0.006 120);
+
+  --c-danger: oklch(52% 0.17 27);
+  --c-danger-container: oklch(95% 0.03 27);
+  --c-warning: oklch(65% 0.13 75);
+  --c-success: oklch(55% 0.11 150);
+
+  --c-chart-1: oklch(52% 0.1 145);
+  --c-chart-2: oklch(62% 0.1 230);
+  --c-chart-3: oklch(70% 0.12 75);
+}
+
+.dark {
+  --c-accent: oklch(74% 0.11 145);
+  --c-accent-hover: oklch(79% 0.11 145);
+  --c-on-accent: oklch(20% 0.04 145);
+  --c-accent-container: oklch(32% 0.06 145);
+  --c-on-accent-container: oklch(90% 0.05 145);
+
+  --c-surface: oklch(17% 0.008 120);
+  --c-surface-low: oklch(14% 0.008 120);
+  --c-surface-high: oklch(22% 0.009 120);
+  --c-on-surface: oklch(93% 0.005 120);
+  --c-muted: oklch(70% 0.01 120);
+  --c-line: oklch(30% 0.008 120);
+
+  --c-danger: oklch(72% 0.14 25);
+  --c-danger-container: oklch(30% 0.08 25);
+  --c-warning: oklch(78% 0.12 80);
+  --c-success: oklch(72% 0.11 150);
+
+  --c-chart-1: oklch(72% 0.11 145);
+  --c-chart-2: oklch(70% 0.1 230);
+  --c-chart-3: oklch(78% 0.11 75);
+
+  --shadow-e1: 0 1px 2px oklch(0% 0 0 / 0.4);
+  --shadow-e2: 0 2px 6px oklch(0% 0 0 / 0.45);
+  --shadow-e3: 0 8px 24px oklch(0% 0 0 / 0.5);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--color-surface-low);
+    color: var(--color-on-surface);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Уважаем системную настройку: анимации гасим, а не «ускоряем». */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer utilities {
+  .animate-rise {
+    animation: rise 0.28s cubic-bezier(0.2, 0, 0, 1) both;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}

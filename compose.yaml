@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-marafon}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-marafon}
+      POSTGRES_DB: ${POSTGRES_DB:-marafon}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    # Публикуем порт: локальный `npm run dev` ходит в эту же базу.
+    # 5432 занят чужим контейнером (limyworld) — наш дефолт 5433.
+    ports:
+      - '${DB_PORT:-5433}:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-marafon} -d ${POSTGRES_DB:-marafon}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-marafon}:${POSTGRES_PASSWORD:-marafon}@db:5432/${POSTGRES_DB:-marafon}?schema=public
+      AUTH_SECRET: ${AUTH_SECRET:?Set AUTH_SECRET in .env}
+      AUTH_URL: ${APP_URL:-http://localhost:3000}
+      AUTH_TRUST_HOST: 'true'
+      APP_URL: ${APP_URL:-http://localhost:3000}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-Marafon <noreply@example.com>}
+      STORAGE_DRIVER: local
+      STORAGE_LOCAL_DIR: /app/public/uploads
+      STORAGE_PUBLIC_PREFIX: /uploads
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@example.com}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-admin12345}
+    volumes:
+      - uploads:/app/public/uploads
+    ports:
+      - '${APP_PORT:-3000}:3000'
+    command: >
+      sh -c "npx prisma migrate deploy &&
+             npx prisma db seed &&
+             node server.js"
+
+volumes:
+  pgdata:
+  uploads:
